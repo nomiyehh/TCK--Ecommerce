@@ -31,7 +31,7 @@ const Contact = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
                 { icon: MapPin, title: 'Address', detail: 'Friday Market, Shop No. 14, Near Goyal Talkies, Kamptee, MH', link: 'https://maps.app.goo.gl/aV5v7ytxSqWS7xmu7' },
-                { icon: Phone, title: 'Phone', detail: '+91 9527798610', link: 'tel:9527798610' },
+                { icon: Phone, title: 'Phone', detail: '+91 98765 43210', link: 'tel:9876543210' },
                 { icon: Mail, title: 'Email', detail: 'info@tajchicken.com', link: 'mailto:info@tajchicken.com' },
                 { icon: Clock, title: 'Hours', detail: '8:00 AM - 8:30 PM (Daily)' },
               ].map((item, i) => (
@@ -56,14 +56,14 @@ const Contact = () => {
             <h2 className="text-2xl font-black text-brand-charcoal">Quick Actions</h2>
             <div className="flex flex-wrap gap-4">
               <a
-                href="tel:9527798610"
+                href="tel:9876543210"
                 className="bg-brand-red text-white px-8 py-4 rounded-2xl font-bold flex items-center space-x-2 premium-shadow hover:scale-105 transition-all"
               >
                 <Phone className="w-5 h-5" />
                 <span>Call Now</span>
               </a>
               <a
-                href="https://api.whatsapp.com/send?phone=919527798610"
+                href="https://api.whatsapp.com/send?phone=919876543210"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-600 text-white px-8 py-4 rounded-2xl font-bold flex items-center space-x-2 premium-shadow hover:scale-105 transition-all"
@@ -108,7 +108,7 @@ const Contact = () => {
                   required
                   type="tel"
                   className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-red/20"
-                  placeholder="9527798610"
+                  placeholder="9876543210"
                 />
               </div>
             </div>

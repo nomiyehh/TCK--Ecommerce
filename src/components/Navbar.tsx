@@ -77,7 +77,7 @@ const Navbar = () => {
               )}
             </Link>
             <a
-              href="tel:9527798610"
+              href="tel:9876543210"
               className="bg-brand-red text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center space-x-2 hover:bg-brand-red/90 transition-all premium-shadow"
             >
               <Phone className="w-4 h-4" />
@@ -137,7 +137,7 @@ const Navbar = () => {
             ))}
             <div className="pt-4 flex flex-col space-y-3">
               <a
-                href="tel:9527798610"
+                href="tel:9876543210"
                 onClick={() => setIsOpen(false)}
                 className="w-full bg-brand-red text-white py-3 rounded-xl text-center font-bold flex items-center justify-center space-x-2"
               >
@@ -145,7 +145,7 @@ const Navbar = () => {
                 <span>Call Shop</span>
               </a>
               <a
-                href="https://api.whatsapp.com/send?phone=919527798610"
+                href="https://api.whatsapp.com/send?phone=919876543210"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}

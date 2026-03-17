@@ -96,7 +96,7 @@ const OrderTracking = () => {
             <label className="text-xs font-bold text-gray-400 uppercase">Phone Number</label>
             <input
               type="tel"
-              placeholder="9527798610"
+              placeholder="9876543210"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-red/20"
@@ -191,7 +191,7 @@ const OrderTracking = () => {
 
           <div className="flex justify-center">
             <a
-              href="tel:9527798610"
+              href="tel:9876543210"
               className="flex items-center space-x-2 text-brand-red font-bold hover:underline"
             >
               <Phone className="w-5 h-5" />
