@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - Taj Chicken Admin</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="p-6 flex items-center space-x-3 mb-8">
+            <img src="/logo.png" alt="Taj Chicken" class="h-10 object-contain brightness-0 invert">
+            <span class="text-xl font-bold tracking-tight">Admin Panel</span>
+        </div>
+        <nav class="space-y-1">
+            <a href="dashboard.html" class="nav-link">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                Dashboard
+            </a>
+            <a href="products.html" class="nav-link">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                Products
+            </a>
+            <a href="orders.html" class="nav-link active">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                Orders
+            </a>
+            <a href="customers.html" class="nav-link">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                Customers
+            </a>
+            <div class="pt-8 px-6">
+                <button onclick="handleLogout()" class="w-full bg-red-600/20 text-red-500 py-2 rounded-lg font-bold hover:bg-red-600 hover:text-white transition-all flex items-center justify-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    Logout
+                </button>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">Order Management</h1>
+                <p class="text-gray-500">Track and update customer orders in real-time.</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <select id="statusFilter" onchange="loadOrders()" class="px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-red-500 outline-none text-sm font-medium">
+                    <option value="all">All Statuses</option>
+                    <option value="received">Order Received</option>
+                    <option value="preparing">Preparing</option>
+                    <option value="delivery">Out for Delivery</option>
+                    <option value="delivered">Delivered</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Orders Table -->
+        <div class="table-container">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-50 text-gray-500 text-xs uppercase font-bold">
+                        <tr>
+                            <th class="px-6 py-4">Order ID</th>
+                            <th class="px-6 py-4">Customer Details</th>
+                            <th class="px-6 py-4">Order Details</th>
+                            <th class="px-6 py-4">Total Amount</th>
+                            <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody" class="divide-y divide-gray-100">
+                        <!-- Orders will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/admin.js"></script>
+    <script>
+        let orders = [];
+
+        // Load Orders
+        async function loadOrders() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            try {
+                let query = supabaseClient
+                    .from('orders')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (statusFilter !== 'all') {
+                    query = query.eq('status', statusFilter);
+                }
+
+                const { data, error } = await query;
+                if (error) throw error;
+                
+                orders = data || [];
+                renderOrders();
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                // For demo, show mock orders
+                orders = [
+                    { 
+                        id: 'ORD-001', 
+                        customer_name: 'Rahul Sharma', 
+                        phone: '+91 9876543210', 
+                        address: 'Flat 402, Sunshine Apartments, Kamptee',
+                        items: [{ name: 'Chicken Breast', weight: '2kg', cut: 'Curry Cut', quantity: 1 }],
+                        total_amount: 640,
+                        status: 'delivered',
+                        created_at: new Date()
+                    },
+                    { 
+                        id: 'ORD-002', 
+                        customer_name: 'Priya Patel', 
+                        phone: '+91 9123456789', 
+                        address: '12, Garden Colony, Nagpur',
+                        items: [{ name: 'Whole Chicken', weight: '1.5kg', cut: 'Whole', quantity: 1 }],
+                        total_amount: 450,
+                        status: 'preparing',
+                        created_at: new Date()
+                    }
+                ];
+                renderOrders();
+            }
+        }
+
+        function renderOrders() {
+            const tableBody = document.getElementById('ordersTableBody');
+            tableBody.innerHTML = '';
+
+            orders.forEach(order => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50 transition-colors';
+                
+                // Format items string
+                const itemsHtml = order.items.map(item => `
+                    <div class="text-xs">
+                        <span class="font-bold text-gray-800">${item.name}</span>
+                        <span class="text-gray-500">(${item.weight}, ${item.cut}) x ${item.quantity}</span>
+                    </div>
+                `).join('');
+
+                row.innerHTML = `
+                    <td class="px-6 py-4">
+                        <div class="font-bold text-gray-800">${order.id}</div>
+                        <div class="text-[10px] text-gray-400 uppercase tracking-wider">${formatDate(order.created_at)}</div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="font-medium text-gray-800">${order.customer_name}</div>
+                        <div class="text-xs text-gray-500">${order.phone}</div>
+                        <div class="text-[10px] text-gray-400 max-w-[200px] truncate">${order.address}</div>
+                    </td>
+                    <td class="px-6 py-4 space-y-1">
+                        ${itemsHtml}
+                    </td>
+                    <td class="px-6 py-4 font-bold text-gray-800">₹${order.total_amount}</td>
+                    <td class="px-6 py-4">
+                        <span class="badge badge-${order.status}">${order.status}</span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <select onchange="updateOrderStatus('${order.id}', this.value)" class="px-3 py-1 rounded-lg border border-gray-200 focus:ring-2 focus:ring-red-500 outline-none text-xs font-medium">
+                            <option value="received" ${order.status === 'received' ? 'selected' : ''}>Received</option>
+                            <option value="preparing" ${order.status === 'preparing' ? 'selected' : ''}>Preparing</option>
+                            <option value="delivery" ${order.status === 'delivery' ? 'selected' : ''}>Out for Delivery</option>
+                            <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                        </select>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            try {
+                const { error } = await supabaseClient
+                    .from('orders')
+                    .update({ status: newStatus })
+                    .eq('id', orderId);
+                
+                if (error) throw error;
+                loadOrders();
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                alert('Error updating order status.');
+            }
+        }
+
+        loadOrders();
+    </script>
+</body>
+</html>

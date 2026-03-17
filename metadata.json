@@ -1,0 +1,7 @@
+{
+  "name": "Taj Chicken - Fresh & Hygienic Chicken Shop",
+  "description": "A premium online chicken shop offering fresh, hygienic, farm-to-kitchen chicken products with customizable cuts and same-day delivery.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

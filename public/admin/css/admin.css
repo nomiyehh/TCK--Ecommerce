@@ -1,0 +1,92 @@
+/* Custom styles for admin dashboard */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --brand-red: #E11D48;
+    --brand-gold: #D97706;
+    --brand-charcoal: #111827;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F9FAFB;
+}
+
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: var(--brand-charcoal);
+    color: white;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.main-content {
+    margin-left: 260px;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    color: #9CA3AF;
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.nav-link.active {
+    background-color: rgba(225, 29, 72, 0.1);
+    color: white;
+    border-left-color: var(--brand-red);
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #F3F4F6;
+}
+
+.table-container {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-received { background-color: #DBEAFE; color: #1E40AF; }
+.badge-preparing { background-color: #FEF3C7; color: #92400E; }
+.badge-delivery { background-color: #E0E7FF; color: #3730A3; }
+.badge-delivered { background-color: #D1FAE5; color: #065F46; }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers - Taj Chicken Admin</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="p-6 flex items-center space-x-3 mb-8">
+            <img src="/logo.png" alt="Taj Chicken" class="h-10 object-contain brightness-0 invert">
+            <span class="text-xl font-bold tracking-tight">Admin Panel</span>
+        </div>
+        <nav class="space-y-1">
+            <a href="dashboard.html" class="nav-link">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                Dashboard
+            </a>
+            <a href="products.html" class="nav-link">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                Products
+            </a>
+            <a href="orders.html" class="nav-link">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                Orders
+            </a>
+            <a href="customers.html" class="nav-link active">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                Customers
+            </a>
+            <div class="pt-8 px-6">
+                <button onclick="handleLogout()" class="w-full bg-red-600/20 text-red-500 py-2 rounded-lg font-bold hover:bg-red-600 hover:text-white transition-all flex items-center justify-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    Logout
+                </button>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">Customer Management</h1>
+                <p class="text-gray-500">View and manage your customer database.</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <input type="text" id="customerSearch" placeholder="Search customers..." onkeyup="filterCustomers()" class="px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-red-500 outline-none text-sm font-medium w-64">
+            </div>
+        </header>
+
+        <!-- Customers Table -->
+        <div class="table-container">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-50 text-gray-500 text-xs uppercase font-bold">
+                        <tr>
+                            <th class="px-6 py-4">Customer Name</th>
+                            <th class="px-6 py-4">Phone Number</th>
+                            <th class="px-6 py-4">Address</th>
+                            <th class="px-6 py-4">Total Orders</th>
+                            <th class="px-6 py-4">Total Spent</th>
+                            <th class="px-6 py-4">Last Order</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customersTableBody" class="divide-y divide-gray-100">
+                        <!-- Customers will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/admin.js"></script>
+    <script>
+        let customers = [];
+
+        // Load Customers
+        async function loadCustomers() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('customers')
+                    .select('*')
+                    .order('name', { ascending: true });
+
+                if (error) throw error;
+                customers = data || [];
+                renderCustomers();
+            } catch (error) {
+                console.error('Error loading customers:', error);
+                // Mock data for demo
+                customers = [
+                    { name: 'Rahul Sharma', phone: '+91 9876543210', address: 'Flat 402, Sunshine Apartments, Kamptee', total_orders: 12, total_spent: 8450, last_order: new Date() },
+                    { name: 'Priya Patel', phone: '+91 9123456789', address: '12, Garden Colony, Nagpur', total_orders: 5, total_spent: 3200, last_order: new Date() },
+                    { name: 'Amit Kumar', phone: '+91 9988776655', address: 'Shop 4, Market Area, Kamptee', total_orders: 24, total_spent: 15600, last_order: new Date() }
+                ];
+                renderCustomers();
+            }
+        }
+
+        function renderCustomers() {
+            const tableBody = document.getElementById('customersTableBody');
+            tableBody.innerHTML = '';
+
+            customers.forEach(customer => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50 transition-colors';
+                row.innerHTML = `
+                    <td class="px-6 py-4 font-bold text-gray-800">${customer.name}</td>
+                    <td class="px-6 py-4 text-gray-600">${customer.phone}</td>
+                    <td class="px-6 py-4 text-gray-500 text-xs max-w-[250px] truncate">${customer.address}</td>
+                    <td class="px-6 py-4 font-medium text-gray-800">${customer.total_orders}</td>
+                    <td class="px-6 py-4 font-bold text-gray-900">₹${customer.total_spent}</td>
+                    <td class="px-6 py-4 text-gray-500 text-sm">${formatDate(customer.last_order)}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function filterCustomers() {
+            const searchTerm = document.getElementById('customerSearch').value.toLowerCase();
+            const filtered = customers.filter(c => 
+                c.name.toLowerCase().includes(searchTerm) || 
+                c.phone.includes(searchTerm) || 
+                c.address.toLowerCase().includes(searchTerm)
+            );
+            
+            const tableBody = document.getElementById('customersTableBody');
+            tableBody.innerHTML = '';
+            filtered.forEach(customer => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50 transition-colors';
+                row.innerHTML = `
+                    <td class="px-6 py-4 font-bold text-gray-800">${customer.name}</td>
+                    <td class="px-6 py-4 text-gray-600">${customer.phone}</td>
+                    <td class="px-6 py-4 text-gray-500 text-xs max-w-[250px] truncate">${customer.address}</td>
+                    <td class="px-6 py-4 font-medium text-gray-800">${customer.total_orders}</td>
+                    <td class="px-6 py-4 font-bold text-gray-900">₹${customer.total_spent}</td>
+                    <td class="px-6 py-4 text-gray-500 text-sm">${formatDate(customer.last_order)}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        loadCustomers();
+    </script>
+</body>
+</html>
