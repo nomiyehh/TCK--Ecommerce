@@ -33,8 +33,21 @@ export const orderService = {
     const { data, error } = await supabase
       .from('orders')
       .select('*')
-      .eq('id', orderId)
+      .eq('id', orderId.toUpperCase())
       .single();
+
+    if (error) return null;
+    return data;
+  },
+
+  async getOrderByPhone(phone: string) {
+    const { data, error } = await supabase
+      .from('orders')
+      .select('*')
+      .eq('phone', phone)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
 
     if (error) throw error;
     return data;

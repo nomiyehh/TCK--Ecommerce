@@ -9,8 +9,9 @@ import { ShoppingCart, Phone, Menu, X, MapPin, MessageSquare, Search } from 'luc
 import { useCart } from '../CartContext';
 import { motion, AnimatePresence } from 'motion/react';
 
+import logoUrl from '../assets/logo.png';
+
 const Navbar = () => {
-  const logoUrl = "/logo.png";
   const [isOpen, setIsOpen] = React.useState(false);
   const { totalItems } = useCart();
   const location = useLocation();

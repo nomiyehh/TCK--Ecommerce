@@ -26,28 +26,40 @@ const OrderTracking = () => {
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!orderId) return;
+    if (!orderId && !phone) {
+      setError('Please enter either an Order ID or Phone Number.');
+      return;
+    }
 
     setIsSearching(true);
     setError('');
     
     try {
-      const data = await orderService.getOrderById(orderId);
+      let data = null;
+      
+      if (orderId) {
+        data = await orderService.getOrderById(orderId);
+      } else if (phone) {
+        data = await orderService.getOrderByPhone(phone);
+      }
+
       if (data) {
         setOrderData({
           id: data.id,
           status: data.status,
-          items: data.items.length,
+          items: data.items?.length || 0,
           total: data.total_amount,
           createdAt: new Date(data.created_at).toLocaleString(),
         });
+        // If we found by phone, update the orderId field for clarity
+        if (!orderId) setOrderId(data.id);
       } else {
-        setError('Order not found. Please check your ID.');
+        setError('Order not found. Please check your details.');
         setOrderData(null);
       }
     } catch (error) {
       console.error('Error searching order:', error);
-      setError('Failed to fetch order status.');
+      setError('Failed to fetch order status. Please try again later.');
       setOrderData(null);
     } finally {
       setIsSearching(false);
