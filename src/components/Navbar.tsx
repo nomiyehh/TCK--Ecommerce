@@ -9,9 +9,8 @@ import { ShoppingCart, Phone, Menu, X, MapPin, MessageSquare, Search } from 'luc
 import { useCart } from '../CartContext';
 import { motion, AnimatePresence } from 'motion/react';
 
-import logoUrl from '/logo.png?url';
-
 const Navbar = () => {
+  const logoUrl = "/logo.png";
   const [isOpen, setIsOpen] = React.useState(false);
   const { totalItems } = useCart();
   const location = useLocation();
@@ -35,9 +34,6 @@ const Navbar = () => {
                 src={logoUrl} 
                 alt="Taj Chicken" 
                 className="h-14 w-auto object-contain"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://cdn-icons-png.flaticon.com/512/2632/2632839.png';
-                }}
               />
             </Link>
           </div>
