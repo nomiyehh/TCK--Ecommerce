@@ -9,12 +9,12 @@ import { ShoppingCart, Phone, Menu, X, MapPin, MessageSquare, Search } from 'luc
 import { useCart } from '../CartContext';
 import { motion, AnimatePresence } from 'motion/react';
 
+import logoUrl from '/logo.png?url';
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { totalItems } = useCart();
   const location = useLocation();
-
-  const logoUrl = '/logo.png';
 
   const navLinks = [
     { name: 'Home', path: '/' },

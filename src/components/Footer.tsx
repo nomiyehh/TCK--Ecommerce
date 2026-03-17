@@ -7,9 +7,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, MapPin, Phone, Mail, Clock } from 'lucide-react';
 
-const Footer = () => {
-  const logoUrl = '/logo.png';
+import logoUrl from '/logo.png?url';
 
+const Footer = () => {
   return (
     <footer className="bg-brand-charcoal text-white pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
