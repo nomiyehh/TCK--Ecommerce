@@ -17,6 +17,7 @@ import About from './pages/About';
 import OrderTracking from './pages/OrderTracking';
 import ErrorBoundary from './components/ErrorBoundary';
 
+// Main App component
 export default function App() {
   useEffect(() => {
     document.title = "Taj Chicken - Fresh & Hygienic Chicken Shop";

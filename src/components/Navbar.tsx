@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from 'motion/react';
 
 const logoUrl = '/logo.png';
 
+// Navbar component
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { totalItems } = useCart();
