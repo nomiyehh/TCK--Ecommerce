@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './CartContext';
 import Navbar from './components/Navbar';
@@ -17,6 +18,10 @@ import OrderTracking from './pages/OrderTracking';
 import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
+  useEffect(() => {
+    document.title = "Taj Chicken - Fresh & Hygienic Chicken Shop";
+  }, []);
+
   return (
     <ErrorBoundary>
       <CartProvider>

@@ -7,7 +7,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, MapPin, Phone, Mail, Clock } from 'lucide-react';
 
-import logoUrl from '../assets/logo.png';
+const LOGO_CDN = "https://img.icons8.com/fluency/96/chicken.png";
 
 const Footer = () => {
   return (
@@ -16,12 +16,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="space-y-6">
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex items-center space-x-3">
               <img 
-                src={logoUrl} 
+                src={LOGO_CDN} 
                 alt="Taj Chicken" 
-                className="h-14 w-auto object-contain"
+                className="h-10 w-auto object-contain"
               />
+              <span className="text-xl font-black text-white tracking-tight">Taj <span className="text-brand-red italic">Chicken</span></span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
               Premium quality fresh farm chicken delivered straight to your kitchen. 

@@ -9,7 +9,7 @@ import { ShoppingCart, Phone, Menu, X, MapPin, MessageSquare, Search } from 'luc
 import { useCart } from '../CartContext';
 import { motion, AnimatePresence } from 'motion/react';
 
-import logoUrl from '../assets/logo.png';
+const LOGO_CDN = "https://img.icons8.com/fluency/96/chicken.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -32,10 +32,11 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center">
               <img 
-                src={logoUrl} 
+                src={LOGO_CDN} 
                 alt="Taj Chicken" 
-                className="h-14 w-auto object-contain"
+                className="h-10 w-auto object-contain"
               />
+              <span className="text-xl font-black text-brand-charcoal tracking-tight">Taj <span className="text-brand-red italic">Chicken</span></span>
             </Link>
           </div>
 
