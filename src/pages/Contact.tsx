@@ -8,9 +8,12 @@ import { MapPin, Phone, Mail, Clock, Send, Navigation, MessageSquare } from 'luc
 import { motion } from 'motion/react';
 
 const Contact = () => {
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Message sent! We will get back to you soon.');
+    setIsSubmitted(true);
+    setTimeout(() => setIsSubmitted(false), 5000);
   };
 
   return (
@@ -90,6 +93,12 @@ const Contact = () => {
             <h2 className="text-2xl font-black text-brand-charcoal">Send a Message</h2>
             <p className="text-sm text-gray-400">We usually respond within 2 hours.</p>
           </div>
+
+          {isSubmitted && (
+            <div className="bg-green-50 text-green-600 p-4 rounded-xl text-sm font-bold border border-green-100">
+              Message sent! We will get back to you soon.
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

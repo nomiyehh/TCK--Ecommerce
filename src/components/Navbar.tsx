@@ -9,7 +9,7 @@ import { ShoppingCart, Phone, Menu, X, MapPin, MessageSquare, Search } from 'luc
 import { useCart } from '../CartContext';
 import { motion, AnimatePresence } from 'motion/react';
 
-const LOGO_CDN = "https://img.icons8.com/fluency/96/chicken.png";
+const logoUrl = '/logo.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -32,11 +32,10 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center">
               <img 
-                src={LOGO_CDN} 
+                src={logoUrl} 
                 alt="Taj Chicken" 
-                className="h-10 w-auto object-contain"
+                className="h-16 w-auto object-contain"
               />
-              <span className="text-xl font-black text-brand-charcoal tracking-tight">Taj <span className="text-brand-red italic">Chicken</span></span>
             </Link>
           </div>
 
@@ -78,7 +77,7 @@ const Navbar = () => {
               )}
             </Link>
             <a
-              href="tel:9876543210"
+              href="tel:9371811123"
               className="bg-brand-red text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center space-x-2 hover:bg-brand-red/90 transition-all premium-shadow"
             >
               <Phone className="w-4 h-4" />
@@ -138,7 +137,7 @@ const Navbar = () => {
             ))}
             <div className="pt-4 flex flex-col space-y-3">
               <a
-                href="tel:9876543210"
+                href="tel:9371811123"
                 onClick={() => setIsOpen(false)}
                 className="w-full bg-brand-red text-white py-3 rounded-xl text-center font-bold flex items-center justify-center space-x-2"
               >
@@ -146,7 +145,7 @@ const Navbar = () => {
                 <span>Call Shop</span>
               </a>
               <a
-                href="https://api.whatsapp.com/send?phone=919876543210"
+                href="https://api.whatsapp.com/send?phone=919371811123"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}

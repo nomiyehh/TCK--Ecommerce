@@ -15,6 +15,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [isOrdering, setIsOrdering] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [orderId, setOrderId] = useState('');
 
   const [formData, setFormData] = useState({
@@ -41,6 +42,7 @@ const Checkout = () => {
     const newOrderId = `TAJ-${Math.floor(100000 + Math.random() * 900000)}`;
     
     try {
+      setError(null);
       await orderService.placeOrder({
         id: newOrderId,
         customerName: formData.name,
@@ -57,7 +59,7 @@ const Checkout = () => {
       clearCart();
     } catch (error) {
       console.error('Error placing order:', error);
-      alert('Failed to place order. Please try again.');
+      setError('Failed to place order. Please try again.');
       setIsOrdering(false);
     }
   };
@@ -144,7 +146,7 @@ const Checkout = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder="9876543210"
+                    placeholder="9371811123"
                     className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-red/20"
                   />
                 </div>
@@ -214,6 +216,12 @@ const Checkout = () => {
         <div className="lg:col-span-1">
           <div className="bg-white p-8 rounded-[32px] premium-shadow border border-brand-red/5 sticky top-32 space-y-8">
             <h2 className="text-2xl font-black text-brand-charcoal">Your Order</h2>
+            
+            {error && (
+              <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm font-bold border border-red-100">
+                {error}
+              </div>
+            )}
             
             <div className="space-y-4 max-h-60 overflow-y-auto pr-2 no-scrollbar">
               {cart.map((item) => (
